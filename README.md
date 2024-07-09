@@ -151,4 +151,4 @@ def get_title(hwnd):
 
 ​	参考文章：[Python----pywin32如何获取窗口句柄_pywin32获取窗口句柄-CSDN博客](https://blog.csdn.net/qq_39369520/article/details/119520185)
 
-最终效果如图所示：![演示](https://bucket-stel2ari.oss-cn-beijing.aliyuncs.com/show.gif?Expires=1720542173&OSSAccessKeyId=TMP.3KfF87p4XSbTSyxok8PhLayDc9bvSCBnppbmrXZP6BUKMi4DWgz7Udo7LgAWx6kpthGKjKTtGopn7BJqYmFNUSNiXBHT8J&Signature=MlhOqcMfq9%2BKEI0aiISoLYKRF0s%3D)
+最终效果如图所示：![演示](https://github.com/FFFJAM/tuchuang/blob/main/show.gif)
