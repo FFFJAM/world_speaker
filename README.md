@@ -33,7 +33,7 @@
 
 ​	最终所得工具功能逻辑图如图1所示：
 
-![image-20240709232707184](C:\Users\HP\AppData\Roaming\Typora\typora-user-images\image-20240709232707184.png)
+![image-20240709232707184](https://bucket-stel2ari.oss-cn-beijing.aliyuncs.com/tooltotal.png?Expires=1720542192&OSSAccessKeyId=TMP.3KfF87p4XSbTSyxok8PhLayDc9bvSCBnppbmrXZP6BUKMi4DWgz7Udo7LgAWx6kpthGKjKTtGopn7BJqYmFNUSNiXBHT8J&Signature=tteV6VILVYCL8MAlYYOxrswZ480%3D)
 
 <center>图1：工具功能逻辑图</center>
 
@@ -113,7 +113,7 @@ main_layout.addLayout(sub_layout)
 
 ​	最后执行效果如图2所示
 
-![image-20240709233958705](C:\Users\HP\AppData\Roaming\Typora\typora-user-images\image-20240709233958705.png)
+![image-20240709233958705](https://bucket-stel2ari.oss-cn-beijing.aliyuncs.com/fontpager.png?Expires=1720542113&OSSAccessKeyId=TMP.3KfF87p4XSbTSyxok8PhLayDc9bvSCBnppbmrXZP6BUKMi4DWgz7Udo7LgAWx6kpthGKjKTtGopn7BJqYmFNUSNiXBHT8J&Signature=%2BDAbOJrHIIYWB0zWLXJpu9C8TbA%3D)
 
 <center>图2：前端效果图</center>
 
@@ -151,4 +151,4 @@ def get_title(hwnd):
 
 ​	参考文章：[Python----pywin32如何获取窗口句柄_pywin32获取窗口句柄-CSDN博客](https://blog.csdn.net/qq_39369520/article/details/119520185)
 
-最终效果如图所示：![演示](C:\Users\HP\Downloads\演示.gif)
+最终效果如图所示：![演示](https://bucket-stel2ari.oss-cn-beijing.aliyuncs.com/show.gif?Expires=1720542173&OSSAccessKeyId=TMP.3KfF87p4XSbTSyxok8PhLayDc9bvSCBnppbmrXZP6BUKMi4DWgz7Udo7LgAWx6kpthGKjKTtGopn7BJqYmFNUSNiXBHT8J&Signature=MlhOqcMfq9%2BKEI0aiISoLYKRF0s%3D)
