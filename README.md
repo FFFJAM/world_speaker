@@ -151,7 +151,9 @@ def get_title(hwnd):
 
 ​	参考文章：[Python----pywin32如何获取窗口句柄_pywin32获取窗口句柄-CSDN博客](https://blog.csdn.net/qq_39369520/article/details/119520185)
 
-最终效果如图所示：![演示](https://github.com/FFFJAM/tuchuang/blob/main/show.gif)
+​	最终效果如图所示：
+
+<video src="https://github.com/FFFJAM/tuchuang/blob/main/windows.mp4"></video>
 
 ## <u>Day3</u>：check功能以及弹窗：
 
