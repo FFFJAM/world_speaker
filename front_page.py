@@ -40,7 +40,10 @@ class MainWindow(QWidget):
 
         left_group.setLayout(left_layout)
         self.speak_edit = QTextEdit(self)
+        self.speak_edit.setPlaceholderText("喊话文本不可包含空格\n文本最大长度为120字符")
         self.speak_edit.setGeometry(50, 50, 400, 300)
+        self.speak_edit.textChanged.connect(self.check_text_length)
+
 
         row_layout11 = QHBoxLayout()
         row_layout1 = QHBoxLayout()
@@ -118,27 +121,39 @@ class MainWindow(QWidget):
         self.submit_button.clicked.connect(self.start_speaker)
         self.cancel_button.clicked.connect(self.stop_or_cancel_speaker)
 
+    def check_text_length(self):
+        max_length = 120  # 设置最大长度为120个字符
+        text = self.speak_edit.toPlainText()
+        if len(text) > max_length:
+            self.speak_edit.setPlainText(text[:max_length])
 
     def get_window(self):
         #获取窗口句柄
-        window_list = get_all_windows()
-        if len(window_list) == 0:
+        self.window_list = get_all_windows()
+        if len(self.window_list) == 0:
             self.hidden_label.setText("未获取到模拟器句柄")
             self.hidden_label.setStyleSheet("color:red")
             self.hidden_label.setVisible(True)
         else:
-            self.hidden_label.setText("已获取模拟器句柄:%s"% (window_list[0][0]))
+            self.hidden_label.setText("已获取模拟器句柄:%s"% (self.window_list[0][0]))
             self.hidden_label.setStyleSheet("color:black")
             self.hidden_label.setVisible(True)
 
-
-
     def start_speaker(self):
-        if not self.worker.isRunning():
-            self.submit_button.setEnabled(False)
-            self.cancel_button.setText("停止")
-            self.worker.start()
+        speak_str = self.speak_edit.toPlainText()
+        chech_result = self.check(speak_str)
+        if chech_result == 'ok':
+            if not self.worker.isRunning():
+                self.submit_button.setEnabled(False)
+                self.cancel_button.setText("停止")
+                self.worker.start()
+        else:
+            self.showMessageBox(chech_result)
 
+    def check(self,speak_str):
+        warn_text = ""
+        if len(speak_str) == 0:
+            warn_text += ""
     def stop_or_cancel_speaker(self):
         if self.worker.isRunning():
             self.submit_button.setEnabled(True)
@@ -168,7 +183,7 @@ class MainWindow(QWidget):
 
         msgBox = QMessageBox()
         msgBox.setWindowTitle('Warning!')
-        msgBox.setText(warn_text + "\n的内容不能为空!")
+        msgBox.setText(warn_text)
 
 
     def stop_or_cancel_speaker(self):
