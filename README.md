@@ -153,7 +153,11 @@ def get_title(hwnd):
 
 ​	最终效果如图所示：
 
-<video src="https://github.com/FFFJAM/tuchuang/blob/main/windows.mp4"></video>
+
+
+https://github.com/FFFJAM/world_speaker/assets/121446420/accead79-93c0-4a60-b7b8-36d01e359f99
+
+
 
 ## <u>Day3</u>：check功能以及弹窗：
 
