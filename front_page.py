@@ -26,6 +26,7 @@ class Worker(QThread):
 
 
 class MainWindow(QWidget):
+
     def __init__(self):
         super().__init__()
         self.worker = Worker()
@@ -54,7 +55,7 @@ class MainWindow(QWidget):
         right_top_group = QGroupBox("①获取世界OL窗口句柄")
         right_top_layout = QVBoxLayout()
         right_top_group.setLayout(right_top_layout)
-
+        self.window_list = []
         self.get_window_button = QPushButton('点击获取窗口句柄')
         self.hidden_label = QLabel("")
         self.hidden_label.setStyleSheet("color: red")
@@ -153,7 +154,16 @@ class MainWindow(QWidget):
     def check(self,speak_str):
         warn_text = ""
         if len(speak_str) == 0:
-            warn_text += "喊话文本不能为空！"
+            warn_text += "喊话文本不能为空！\n"
+        else:
+            if " " in speak_str:
+                warn_text += "喊话文本不能包含空格！\n"
+        if len(self.window_list) == 0:
+            warn_text += "窗口句柄不能为空！\n"
+        if len(warn_text)==0:
+            return "ok"
+        else:
+            return warn_text
     def stop_or_cancel_speaker(self):
         if self.worker.isRunning():
             self.submit_button.setEnabled(True)
@@ -184,7 +194,9 @@ class MainWindow(QWidget):
         msgBox = QMessageBox()
         msgBox.setWindowTitle('Warning!')
         msgBox.setText(warn_text)
-
+        msgBox.setIcon(QMessageBox.Information)
+        msgBox.setStandardButtons(QMessageBox.Ok)
+        msgBox.exec_()
 
     def stop_or_cancel_speaker(self):
         if self.worker.isRunning():
