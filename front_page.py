@@ -153,7 +153,7 @@ class MainWindow(QWidget):
     def check(self,speak_str):
         warn_text = ""
         if len(speak_str) == 0:
-            warn_text += ""
+            warn_text += "喊话文本不能为空！"
     def stop_or_cancel_speaker(self):
         if self.worker.isRunning():
             self.submit_button.setEnabled(True)
