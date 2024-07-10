@@ -33,7 +33,7 @@
 
 ​	最终所得工具功能逻辑图如图1所示：
 
-![image-20240709232707184](https://github.com/FFFJAM/tuchuang/blob/main/fontpager.png)
+![image-20240709232707184](https://github.com/FFFJAM/tuchuang/blob/main/tooltotal.png)
 
 <center>图1：工具功能逻辑图</center>
 
@@ -113,7 +113,7 @@ main_layout.addLayout(sub_layout)
 
 ​	最后执行效果如图2所示
 
-![image-20240709233958705](https://github.com/FFFJAM/tuchuang/blob/main/tooltotal.png)
+![image-20240709233958705](https://github.com/FFFJAM/tuchuang/blob/main/fontpager.png)
 
 <center>图2：前端效果图</center>
 
