@@ -152,3 +152,44 @@ def get_title(hwnd):
 ​	参考文章：[Python----pywin32如何获取窗口句柄_pywin32获取窗口句柄-CSDN博客](https://blog.csdn.net/qq_39369520/article/details/119520185)
 
 最终效果如图所示：![演示](https://github.com/FFFJAM/tuchuang/blob/main/show.gif)
+
+## <u>Day3</u>：check功能以及弹窗：
+
+​	设置QTextEdit控件默认文本，以及文本最大长度
+
+```Python
+self.speak_edit.setPlaceholderText("喊话文本不可包含空格\n文本最大长度为120字符")
+self.speak_edit.textChanged.connect(self.check_text_length)
+......
+    def check_text_length(self):
+        max_length = 120  # 设置最大长度为120个字符
+        text = self.speak_edit.toPlainText()
+        if len(text) > max_length:
+            self.speak_edit.setPlainText(text[:max_length])
+```
+
+​	设置校验方法，检测喊话文本是否为空，是否包含空格以及窗口句柄是否获取
+
+```Python
+def check(self,speak_str):
+    warn_text = ""
+    if len(speak_str) == 0:
+        warn_text += "喊话文本不能为空！\n"
+    else:
+        if " " in speak_str:
+            warn_text += "喊话文本不能包含空格！\n"
+    if len(self.window_list) == 0:
+        warn_text += "窗口句柄不能为空！\n"
+    if len(warn_text)==0:
+        return "ok"
+    else:
+        return warn_text
+```
+
+​	最终效果如图所示
+
+![image-20240711001332293](https://github.com/FFFJAM/tuchuang/blob/main/check.png)
+
+![image-20240711001421947](https://github.com/FFFJAM/tuchuang/blob/main/check2.png)
+
+<center>图3：check效果图</center>
