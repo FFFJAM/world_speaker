@@ -1,8 +1,8 @@
 # **世界OL喊话工具**
 
-- 阅读本指南应具备的能力：Python基础、PyCharm基础、Pyqt5基础、OpenCV2基础以及一定的世界OL游玩经验。
+- 工具特点：使用OpenCV图像识别，并基于win32api模拟人工操作，无需读取游戏内存，封号风险接近于0
 
-- 本指南面向的对象：技术热爱者、工具受益者、世界OL玩家作者。
+- 本指南面向的对象：技术热爱者、工具受益者、世界OL玩家等。
 
   
 
@@ -199,3 +199,49 @@ def check(self,speak_str):
 ![image-20240711001421947](https://github.com/FFFJAM/tuchuang/blob/main/check2.png)
 
 <center>图3：check效果图</center>
+
+## <u>Day4</u>：世界OL相关操作：
+
+​	定义操作类，在初始化时执行获取窗口句柄方法，并获取窗口位置
+
+```Python
+class word_methods():
+
+    def __init__(self):
+        super().__init__()
+        self.hwnd = get_all_windows()[0][0]
+        print(self.hwnd)
+        self.getWorldPositon()
+```
+
+​	定义回到个人城市方法
+
+```Python
+def return_to_city(self):
+
+    city_position = self.get_rela_pos(0.8 ,0.95)
+    enter_city_pos = self.get_rela_pos(0.5, 0.85)
+    delete_pos = self.get_rela_pos(0.93,0.1)
+    self.mouse_click(city_position)
+    self.mouse_click(enter_city_pos)
+    self.mouse_click(delete_pos)
+    self.mouse_click(delete_pos)
+```
+
+​	点击聊天框并将文本粘贴到输入框中并发送
+
+```Python
+def speaker(self):
+    speaker_position = self.get_rela_pos(0.15 ,0.98)
+    world_channel_pos = self.get_rela_pos(0.1, 0.22)
+    text_pos = self.get_rela_pos(0.1, 0.07)
+    send_pos = self.get_rela_pos(0.1, 0.5)
+    self.mouse_click(speaker_position)
+    self.mouse_click(world_channel_pos)
+    self.mouse_click(text_pos)
+    win32api.keybd_event(17, 0, 0, 0)  # ctrl按下
+    win32api.keybd_event(86, 0, 0, 0)  # v按下
+    win32api.keybd_event(86, 0, 0, 0)  # v抬起
+    win32api.keybd_event(17, 0, 0, 0)  # ctrl抬起
+    self.mouse_click(send_pos)
+```

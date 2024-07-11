@@ -50,12 +50,7 @@ class word_methods():
         self.mouse_click(enter_city_pos)
         self.mouse_click(delete_pos)
         self.mouse_click(delete_pos)
-        #win32api.keybd_event(17, 0, 0, 0)  # ctrl按下
-        print(1231)
-        time.sleep(2)
-        win32api.keybd_event("86", 0, 0, 0)  # a按下
-        win32api.keybd_event("86", 0, 0, 0)  # a抬起
-        #win32api.keybd_event(17, 0, 0, 0)  # ctrl抬起
+
 
 
     def speaker(self):
