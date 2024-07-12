@@ -245,3 +245,68 @@ def speaker(self):
     win32api.keybd_event(17, 0, 0, 0)  # ctrl抬起
     self.mouse_click(send_pos)
 ```
+
+## <u>Day5</u>：基于OpenCV的自动使用小喇叭：
+
+​	点击道具视图
+
+```Python
+medcial_position = self.get_rela_pos(0.45, 0.85)
+self.mouse_click(medcial_position)
+```
+
+​	截取窗口，并设定截图分辨率
+
+```Python
+world_png = pyautogui.screenshot(region=[self.left, self.top ,self.width , self.height])
+world_png = cv2.cvtColor(np.asarray(world_png), cv2.COLOR_RGB2BGR)
+ask_png = cv2.imread('ba.PNG')
+target_size = (450, 807)
+world_png = cv2.resize(world_png, target_size)
+```
+
+​	使用 TM_CCOEFF_NORMED 方法进行模板匹配并设定匹配阈值
+
+```Python
+result = cv2.matchTemplate(world_png, ask_png, cv2.TM_CCOEFF_NORMED)
+threshold = 0.8
+```
+
+​	当未匹配到结果时，将光标移动到屏幕中心，并滚动鼠标滚轮
+
+```Python
+while len(loc[::-1][0]) == 0:
+    center_position = self.get_rela_pos(0.5, 0.5)
+    win32api.SetCursorPos(center_position)
+    self.mouse_wheel(-120)  # -120表示向下滚动
+    time.sleep(1)  # 等待0.5秒
+```
+
+​	重新截屏并进行图像识别
+
+```Python
+world_png = pyautogui.screenshot(region=[self.left, self.top, self.width, self.height])
+world_png = cv2.cvtColor(np.asarray(world_png), cv2.COLOR_RGB2BGR)
+world_png = cv2.resize(world_png, target_size)
+result = cv2.matchTemplate(world_png, ask_png, cv2.TM_CCOEFF_NORMED)
+loc = np.where(result >= threshold)
+```
+
+​	由于之前对屏幕截图进行像素缩放，所以重新获取对于源窗口正确的小喇叭道具位置，并点击鼠标
+
+```Python
+for pt in zip(*loc[::-1]):
+    alt_wid +=pt[0]
+    alt_higt += pt[1]
+alt_wid = int(alt_wid/len(loc[::-1][0]))
+alt_higt = int(alt_higt/len(loc[::-1][0]))
+
+rate =  self.width / 450
+rate_wid = (rate * alt_wid)/self.width
+rate_higt = (rate * alt_higt)/self.height
+speaker_position_med = self.get_rela_pos(rate_wid, rate_higt)
+self.mouse_click(speaker_position_med)
+delete_pos = self.get_rela_pos(0.93, 0.1)
+self.mouse_click(delete_pos)
+self.mouse_click(delete_pos)
+```
