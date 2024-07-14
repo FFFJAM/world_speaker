@@ -10,25 +10,25 @@
 
 1.下载[雷电模拟器](https://www.ldmnq.com/)并安装打开
 
-![leidian](C:\Users\HP\Desktop\leidian.png)
+![leidian](https://github.com/FFFJAM/tuchuang/blob/main/leidian.png)
 
 2.下载世界ol并拖入雷电模拟器
 
-![world_raiden](C:\Users\HP\Desktop\world_raiden.png)
+![world_raiden](https://github.com/FFFJAM/tuchuang/blob/main/world_raiden.png)
 
 3.设置分辨率为1280x720
 
-![image-20240714215413470](C:\Users\HP\AppData\Roaming\Typora\typora-user-images\image-20240714215413470.png)
+![image-20240714215413470](https://github.com/FFFJAM/tuchuang/blob/main/720.png)
 
 4.打开世界ol并登录
 
 5.双击打开喊话工具
 
-![image-20240714221150424](C:\Users\HP\AppData\Roaming\Typora\typora-user-images\image-20240714221150424.png)
+![image-20240714221150424](https://github.com/FFFJAM/tuchuang/blob/main/exefile.png)
 
 6.依次获取世界ol窗口句柄，填入喊话文本，设置附加功能以及间隔时间（60~300秒）后点击开始
 
-![image-20240714221258477](C:\Users\HP\AppData\Roaming\Typora\typora-user-images\image-20240714221258477.png)
+![image-20240714221258477](https://github.com/FFFJAM/tuchuang/blob/main/toolfont.png)
 
 ------
 
