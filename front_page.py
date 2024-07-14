@@ -1,36 +1,66 @@
 import sys
+import time
+import global_result
 from PyQt5.QtGui import QFont
 from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QHBoxLayout, QLabel, QPushButton, QGroupBox, \
     QMessageBox, QCheckBox, QTextEdit, QSpinBox
-from PyQt5.QtCore import QThread, pyqtSignal
-import random
-import time
+from PyQt5.QtCore import QThread, pyqtSignal, QEventLoop
+from backend import back_func
 from get_world_window import get_all_windows
+
 class Worker(QThread):
     finished = pyqtSignal()
-
-    def __init__(self):
+    signal = pyqtSignal()
+    def __init__(self,speak_str,window_list,flag_speaker,flag_city,second):
         super().__init__()
         self.running = False
+        self.speaker_str = speak_str
+        self.window_list = window_list
+        self.flag_speaker = flag_speaker
+        self.flag_city = flag_city
+        self.second = second
+
+    def stop(self):
+        self.running = False
+        global_result.modify_running(False)
+        result = global_result.result_msg
+        print(result)
+        if result.startswith("ok"):
+            mes_list = "\n".join(result.split(" ")[1:])
+            global_result.modify_global(mes_list)
+            self.showMessageBox_success_chid()
+        else:
+            global_result.modify_global(result + "\n请联系工具作者")
+            self.showMessageBox_success_chid()
+        # if not self.running:
+        #     window.close()
+        #     self.terminate()
+
+    def showMessageBox_success_chid(self):
+        # 子线程中创建消息框
+        self.signal.emit()
+        self.signal.connect(self.onMessageBoxClosed)
+
+    def onMessageBoxClosed(self):
+        # 消息框关闭后执行的操作
+        window.close()
+        self.terminate()
 
     def run(self):
         self.running = True
         while self.running:
-            print("Method A is running...")
-            #待实装喊话功能
-            time.sleep(1)
+            self.result = back_func(self.speaker_str,self.window_list,self.flag_speaker,self.flag_city,self.second)
+            self.running = global_result.running_flag
             self.finished.emit()
-
-    def stop(self):
-        self.running = False
-
+        self.stop()
 
 class MainWindow(QWidget):
 
     def __init__(self):
         super().__init__()
-        self.worker = Worker()
         self.initUI()
+        self.flag_speaker = 0
+        self.flag_city = 0
 
     def initUI(self):
         self.setWindowTitle("世界OL喊话工具")
@@ -44,7 +74,6 @@ class MainWindow(QWidget):
         self.speak_edit.setPlaceholderText("喊话文本不可包含空格\n文本最大长度为120字符")
         self.speak_edit.setGeometry(50, 50, 400, 300)
         self.speak_edit.textChanged.connect(self.check_text_length)
-
 
         row_layout11 = QHBoxLayout()
         row_layout1 = QHBoxLayout()
@@ -70,13 +99,13 @@ class MainWindow(QWidget):
         right_bottom_layout = QHBoxLayout()
         right_bottom_group.setLayout(right_bottom_layout)
 
-        radio4 = QCheckBox("自动使用喇叭")
-        radio5 = QCheckBox("自动回到城市")
+        self.radio4 = QCheckBox("自动使用喇叭")
+        self.radio5 = QCheckBox("自动回到城市")
 
         radio_layout1 = QHBoxLayout()
 
-        radio_layout1.addWidget(radio4)
-        radio_layout1.addWidget(radio5)
+        radio_layout1.addWidget(self.radio4)
+        radio_layout1.addWidget(self.radio5)
 
         self.label_second = QLabel('间隔时间（秒）:', self)
         self.spinBox_second = QSpinBox(self)
@@ -143,6 +172,13 @@ class MainWindow(QWidget):
     def start_speaker(self):
         speak_str = self.speak_edit.toPlainText()
         chech_result = self.check(speak_str)
+        if self.radio4.isChecked():
+            self.flag_speaker = 1
+        if self.radio5.isChecked():
+            self.flag_city = 1
+        second = self.spinBox_second.value()
+        self.worker = Worker(speak_str,self.window_list,self.flag_speaker,self.flag_city,second)
+        self.worker.signal.connect(self.showMessageBox_child)
         if chech_result == 'ok':
             if not self.worker.isRunning():
                 self.submit_button.setEnabled(False)
@@ -150,6 +186,9 @@ class MainWindow(QWidget):
                 self.worker.start()
         else:
             self.showMessageBox(chech_result)
+
+    def handle_result(self,result):
+        return result
 
     def check(self,speak_str):
         warn_text = ""
@@ -164,29 +203,34 @@ class MainWindow(QWidget):
             return "ok"
         else:
             return warn_text
+
     def stop_or_cancel_speaker(self):
         if self.worker.isRunning():
             self.submit_button.setEnabled(True)
             self.cancel_button.setText("取消")
             self.worker.stop()
+            result = global_result.result_msg
+            print(result)
+            if result.startswith("ok"):
+                mes_list = "\n".join(result.split(" ")[1:])
+                self.showMessageBox_success(mes_list)
+            else:
+                self.showMessageBox_success(result + "\n请联系工具作者")
         if not self.worker.isRunning():
             self.close()
 
     def showMessageBox_success(self, text):
         msgBox = QMessageBox()
         msgBox.setWindowTitle('执行结果')
-        if text == "ok":
-            msgBox.setText("执行成功!")
-        else:
-            msgBox.setText("执行失败!\n" + text)
-
+        msgBox.setText(text)
         msgBox.setStandardButtons(QMessageBox.Ok)
         custom_font = QFont('', 10)
         msgBox.setFont(custom_font)
+        # 执行消息框，并获取返回值
         returnValue = msgBox.exec_()
-
-        if text == "ok":
-            self.close()
+        # 根据用户的点击响应来处理
+        if returnValue == QMessageBox.Ok:
+            msgBox.close()  # 手动关闭消息框
 
 
     def showMessageBox(self, warn_text):
@@ -198,25 +242,21 @@ class MainWindow(QWidget):
         msgBox.setStandardButtons(QMessageBox.Ok)
         msgBox.exec_()
 
-    def stop_or_cancel_speaker(self):
-        if self.worker.isRunning():
-            self.submit_button.setEnabled(True)
-            self.cancel_button.setText("取消")
-            self.worker.stop()
-        if not self.worker.isRunning():
-            self.close()
-
-
-    def showMessageBox_success(self, text):
-
-        # 创建一个消息框
+    def showMessageBox_child(self):
         msgBox = QMessageBox()
+        msgBox.setWindowTitle('执行结果')
+        text = global_result.result_msg
+        msgBox.setText(text)
         msgBox.setStandardButtons(QMessageBox.Ok)
         custom_font = QFont('', 10)
         msgBox.setFont(custom_font)
+        # 执行消息框，并获取返回值
         returnValue = msgBox.exec_()
+        # 根据用户的点击响应来处理
         if returnValue == QMessageBox.Ok:
-            return 0
+            global_result.modify_ending(True)
+            msgBox.close()  # 手动关闭消息框
+
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)

@@ -1,20 +1,21 @@
+import base64
 import win32gui
-from get_world_window import get_all_windows
 import win32api,win32con
 import pyautogui
 import cv2
 import numpy as np
 import time
 
-class word_methods():
 
-    def __init__(self):
+class word_methods_class():
+
+    def __init__(self,hwnd):
         super().__init__()
-        self.hwnd = get_all_windows()[0][0]
+        self.hwnd = hwnd
         print(self.hwnd)
         self.getWorldPositon()
         self.method = cv2.TM_CCOEFF
-
+        self.png = 'iVBORw0KGgoAAAANSUhEUgAAABgAAAAdCAIAAAA/2DscAAAF4ElEQVRIDa3B609aaR4A4N97DhdBbtXDVRTQgpdaLlrrnFZ0sLWzSG2XaeeLk0w2YT9s4t+1STcTJ93pzGacXqRYrVo4wCkgAuK1oAURRAG5eDYhmc1uZvabz4MsY7NwFZDFOgtXAVlss3AVkMU2y2LhQgGfz2NzWDg0NS6Zi2rj7Lx8XqoAQGeHQkpcy+ULx7lCo17v6+nEWaxCsbSfOiqXL6AJWWyzQgGv16BRyduEPD401Rr1fPE8sf0puZ0CAHLkpuF619bOp0Ry/6JSvTdm4ba0pD/nqI+b+XwRmpDF9q1C1uaw3xnQa0U8frXWwDDEAJPJ593vAoseHwA8st8dsfR+oDaDocRZqfLw/h2hgJ86zHpWg9lcHpqQxfYXlZJwPhqXtYuzmXwimZaI+F2dslYRf2U1/MurNQB4+sg6OtTneR/xf4yXy5XpeyNt10RHmZM37wKfs3loQsM2V4eS+POMlcPGwhvJdW9MLpcMmfXdGrUvEF94tYbh2DePx2+ZDL+6/cFQolar37dZlNJruZPiS7f/MHMCTYi0uVRKwjljxdkYvZGkvDGZXGI26w0aNRWIL7xZ57Swnz6eMN3o+fFfy6HINgCyTlg0KqJYOFt47T08ykETIm0ulZJwzlhxNkZvJClvTCaXmM16g0ZNBeIvF71CicDpGOu93jn/49tIdIeF4yRpvN6trJTLP/+ylk4fQxMiJ10qJeF8aMXZGL2RpHwxmVxiNukNWjUViL/xUAoFYZ+63dkhffbDYiy+x+Wwbw33D/Rr6vX6i59XUqksNCFyyqVSEE6HFWdhdDRJUTGZTGI26g1aNRWMv13x67vVX46ZJBLR379/ldxJ8fncwRu6IZMBx/DnL5YOUhloQuSUS6UgnA4rzsLoaJLyx2RSidmoN2jVFB1fWg0aB3tuD/e3cDn/mF/c2UvzeBxdt2rijknUyn82v7i7fwhNiJxyqRSE02HFWRgdTVL+mEwqMRv1Bq2aouPLax+/uD0w0N992WCe//R2/+Azh8OWKdoc90eVsrZn868T26l6vQEAiJxyqRSE02HFWRgdTVL+mEwqMRv1Bq2aouPvP4TvTQx1dSkLZ6WFX1dT6QyO4wIh/8nMuF7X8cNP7o3NvbPzCgAgcsqlUhBOhxVnYXQ0SfljMqnEbNQbtGqKjq9TkUdfke2EJJ05ee32HR3lEEI4C/96ZsI40O1e8n2MJI8yeQBA5JRLpSCcDiuHy47Ed0PhZHu7+EafrrtT6Qtu+oLRb59Msjjs2Panlfeh7HEBmh7a7w6ZDOHIVoCOb+2kAQCRD1wqBfH1tFUoFu6ns3t7KaGwtUstl7WJvf5oMJz463f202LpQyBGh7YKp+fQNDkxPGLpzR2ffvBHA6EEACDyTy6VgngyPdGjUwFCZ+dlNpvF4bCrlao3EEtsH8w+nYxv77tXAnsHmUqlCk0jQwO3zH2CFu6qL7y0RgMAIu0ulZx4Mj2u6VLUGo3cyWmtVq/XG8ViKXtyCgzYxkzrgY1XS75C4bzRuISmXr122Nhr0HV46c2XHm/1oopIu0spJx4/uMvisCKJ7QCdOC2WABgcx/v0uhFLv0YtXVoNupf91WoNfqNUSE2DPeOjN6NbBwse33Emh0j73yQigelmD45jn45ye7uH5coFwjAejzM2enOcNGaP88vrYT+dqNfr8JsWHlff0/H4K/KSgWAk6VkOItI+x+WypVIxhrCz8/Lpaaleb7S0cDrV7dbRwcE+rXslFAxtHaSyjcYl/AcClbL9wZfDPVplsVj6/vlbRNrnEEI4jgEAwzCNxiUASMStw+Zu04BO0Mp79s93uweZaqXGMAz8F5Go9Uav5ouhXqJNOP/Cg0j7HPxOK5+r1ch1XVIel7O4HM6dFC8vGfhfbBYuEQsG+7rkUrHnfRhZp+fgd3AWLhLyJWI+h43v7mcqlRr8EQzDZFKRUMjb3c+gyZk5+CMIIWhiGAb+P4QQADAMgyZn5uAqoMmZObgK/wbWmZb9CBMEYgAAAABJRU5ErkJggg=='
     def press_key(self,key):
         # 模拟按下按键
         win32api.keybd_event(key, 0, 0, 0)
@@ -56,6 +57,13 @@ class word_methods():
         self.mouse_click(delete_pos)
         self.mouse_click(delete_pos)
 
+    def base64_to_image(self,base64_code):
+
+        img_data = base64.b64decode(base64_code)
+        img_array = np.fromstring(img_data, np.uint8)
+        img = cv2.imdecode(img_array, cv2.COLOR_RGB2BGR)
+        return img
+
     def speaker(self):
         speaker_position = self.get_rela_pos(0.15 ,0.98)
         world_channel_pos = self.get_rela_pos(0.1, 0.22)
@@ -65,10 +73,10 @@ class word_methods():
         self.mouse_click(speaker_position)
         self.mouse_click(world_channel_pos)
         self.mouse_click(text_pos)
-        win32api.keybd_event(17, 0, 0, 0)  # ctrl按下
-        win32api.keybd_event(86, 0, 0, 0)  # v按下
-        win32api.keybd_event(86, 0, 0, 0)  # v抬起
-        win32api.keybd_event(17, 0, 0, 0)  # ctrl抬起
+        self.press_key(17)
+        self.press_key(86)
+        self.release_key(86)
+        self.release_key(17)
         self.mouse_click(send_pos)
         self.mouse_click(delete_pos)
         self.mouse_click(delete_pos)
@@ -78,7 +86,7 @@ class word_methods():
         self.mouse_click(medcial_position)
         world_png = pyautogui.screenshot(region=[self.left, self.top ,self.width , self.height])
         world_png = cv2.cvtColor(np.asarray(world_png), cv2.COLOR_RGB2BGR)
-        ask_png = cv2.imread('ba.PNG')
+        ask_png = self.base64_to_image(self.png)
         target_size = (450, 807)
         world_png = cv2.resize(world_png, target_size)
 
@@ -113,16 +121,20 @@ class word_methods():
         else:
             alt_wid = 0
             alt_higt = 0
-            for pt in zip(*loc[::-1]):
-                alt_wid +=pt[0]
-                alt_higt += pt[1]
-            alt_wid = int(alt_wid/len(loc[::-1][0]))
-            alt_higt = int(alt_higt/len(loc[::-1][0]))
+            t = 0
+            for pt in zip(*loc[::-1]) :
+                if t<3:
+                    t+=1
+                    alt_wid +=pt[0]
+                    alt_higt += pt[1]
+            alt_wid = int(alt_wid/3)
+            alt_higt = int(alt_higt/3)
 
             rate =  self.width / 450
             rate_wid = (rate * alt_wid)/self.width
             rate_higt = (rate * alt_higt)/self.height
             speaker_position_med = self.get_rela_pos(rate_wid, rate_higt)
+            self.mouse_click(speaker_position_med)
             self.mouse_click(speaker_position_med)
             delete_pos = self.get_rela_pos(0.93, 0.1)
             self.mouse_click(delete_pos)
@@ -134,6 +146,18 @@ class word_methods():
     def get_rela_pos(self,x,y):
         return [self.left + int(x * self.width),self.top + int(y* self.height)]
 
+
+
 if __name__ == '__main__':
-    wm = word_methods()
-    wm.get_speaker_pos()
+    result = ""
+    t = 0
+    wm = word_methods_class(461612)
+    while result != "nospeaker":
+        for i in range(10):
+            wm.speaker()
+            t += 1
+            time.sleep(5)
+        result = wm.get_speaker_pos()
+        time.sleep(20)
+#   pr
+    print("xxxx")
