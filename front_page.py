@@ -1,5 +1,4 @@
 import sys
-import time
 import global_result
 from PyQt5.QtGui import QFont
 from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QHBoxLayout, QLabel, QPushButton, QGroupBox, \
@@ -32,9 +31,6 @@ class Worker(QThread):
         else:
             global_result.modify_global(result + "\n请联系工具作者")
             self.showMessageBox_success_chid()
-        # if not self.running:
-        #     window.close()
-        #     self.terminate()
 
     def showMessageBox_success_chid(self):
         # 子线程中创建消息框
@@ -215,7 +211,7 @@ class MainWindow(QWidget):
                 mes_list = "\n".join(result.split(" ")[1:])
                 self.showMessageBox_success(mes_list)
             else:
-                self.showMessageBox_success(result + "\n请联系工具作者")
+                self.showMessageBox_success(result)
         if not self.worker.isRunning():
             self.close()
 
