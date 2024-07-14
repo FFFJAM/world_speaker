@@ -1,13 +1,40 @@
 # **世界OL喊话工具**
 
 - 工具特点：使用OpenCV图像识别，并基于win32api模拟人工操作，无需读取游戏内存，封号风险接近于0
-
 - 本指南面向的对象：技术热爱者、工具受益者、世界OL玩家等。
 
-  
 
+------
 
-## **<u>Day1</u>：功能设计**
+## 使用教程
+
+1.下载[雷电模拟器](https://www.ldmnq.com/)并安装打开
+
+![leidian](C:\Users\HP\Desktop\leidian.png)
+
+2.下载世界ol并拖入雷电模拟器
+
+![world_raiden](C:\Users\HP\Desktop\world_raiden.png)
+
+3.设置分辨率为1280x720
+
+![image-20240714215413470](C:\Users\HP\AppData\Roaming\Typora\typora-user-images\image-20240714215413470.png)
+
+4.打开世界ol并登录
+
+5.双击打开喊话工具
+
+![image-20240714221150424](C:\Users\HP\AppData\Roaming\Typora\typora-user-images\image-20240714221150424.png)
+
+6.依次获取世界ol窗口句柄，填入喊话文本，设置附加功能以及间隔时间（60~300秒）后点击开始
+
+![image-20240714221258477](C:\Users\HP\AppData\Roaming\Typora\typora-user-images\image-20240714221258477.png)
+
+------
+
+## 制作思路
+
+### **<u>Day1</u>：功能设计**
 
 #### 世界OL游戏背景：
 
@@ -37,7 +64,7 @@
 
 <center>图1：工具功能逻辑图</center>
 
-## <u>Day2</u>：前端界面的绘制与句柄获取功能：
+### <u>Day2</u>：前端界面的绘制与句柄获取功能：
 
 #### 前端页面的绘制：
 
@@ -159,7 +186,7 @@ https://github.com/FFFJAM/world_speaker/assets/121446420/accead79-93c0-4a60-b7b8
 
 
 
-## <u>Day3</u>：check功能以及弹窗：
+### <u>Day3</u>：check功能以及弹窗：
 
 ​	设置QTextEdit控件默认文本，以及文本最大长度
 
@@ -200,7 +227,7 @@ def check(self,speak_str):
 
 <center>图3：check效果图</center>
 
-## <u>Day4</u>：世界OL相关操作：
+### <u>Day4</u>：世界OL相关操作：
 
 ​	定义操作类，在初始化时执行获取窗口句柄方法，并获取窗口位置
 
@@ -246,7 +273,7 @@ def speaker(self):
     self.mouse_click(send_pos)
 ```
 
-## <u>Day5</u>：基于OpenCV的自动使用小喇叭：
+### <u>Day5</u>：基于OpenCV的自动使用小喇叭：
 
 ​	点击道具视图
 
