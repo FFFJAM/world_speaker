@@ -20,7 +20,7 @@
 
 ![image-20240714215413470](https://github.com/FFFJAM/tuchuang/blob/main/720.png)
 
-4.打开世界ol并登录
+4.打开[世界ol](http://sj.good321.net/d.action)并登录
 
 5.双击打开喊话工具
 
